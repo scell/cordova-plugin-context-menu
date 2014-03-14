@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.chrinor.cordova.plugin.context-menu"
+        version="0.1.0dev">
+
+    <name>ContextMenu</name>
+
+    <description>Adds the ability to create and trigger context menus.</description>
+    <repo>https://github.com/chrinor2002/cordova-plugin-context-menu.git</repo>
+    <keywords>menu, context menu, ios</keywords>
+    <license>TBD</license>
+
+    <author>Chris Reid</author>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <dependency id="org.apache.cordova.device" url="https://github.com/apache/cordova-plugin-device" />
+
+    <js-module src="www/native-context-menu.js" name="ContextMenu">
+        <clobbers target="plugin.contextmenu" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="ContextMenu">
+                <param name="ios-package" value="NativeContextMenuPlugin" onload="true" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/NativeContextMenuPlugin.h" />
+        <source-file src="src/ios/NativeContextMenuPlugin.m" />
+    </platform>
+
+    <!-- android 
+    <platform name="android"></platform>-->
+
+</plugin>
