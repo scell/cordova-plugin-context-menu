@@ -21,16 +21,18 @@
     NSString* title  = [options objectForKey:@"title"];
     NSString* cancel  = [options objectForKey:@"cancel"];
     if ([cancel length] == 0){ cancel = @"Cancel"; }
-    NSString* destructive  = [options objectForKey:@"destructive"];
 
     NSArray* buttons = [options objectForKey:@"buttons"];
-    if([buttons count] == 0){
+    int buttonsCount = [buttons count];
+    if(buttonsCount == 0){
       pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"buttons was null or empty"];
 
       // send "failed" back to cordova
       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
       return;
     }
+    NSString* destructive  = [options objectForKey:@"destructive"];
+    if ([cancel length] != 0){ buttonsCount++; }
 
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
         initWithTitle:title
@@ -48,7 +50,7 @@
     }
 
     [actionSheet addButtonWithTitle:cancel];
-    actionSheet.cancelButtonIndex = [buttons count];
+    actionSheet.cancelButtonIndex = buttonsCount;
     // =========================================================================
 
     [actionSheet showInView:self.webView];
