@@ -10,41 +10,61 @@
 
 - (void) doMenu:(CDVInvokedUrlCommand*)command
 {
-    //NSArray* arguments                = [command arguments];
-    //NSMutableDictionary* options      = [arguments objectAtIndex:0];
+    //NSLog(@"Called NativeContextMenuPlugin.doMenu");
+
+    CDVPluginResult* pluginResult = nil;
+
+    NSArray* arguments                = [command arguments];
+    NSMutableDictionary* options      = [arguments objectAtIndex:0];
 
     // process options
-    //NSString* title  = [options objectForKey:@"title"];
-    //NSMutableDictionary* items = [options objectForKey:@"items"];
+    NSString* title  = [options objectForKey:@"title"];
+    NSString* cancel  = [options objectForKey:@"cancel"];
+    if ([cancel length] == 0){ cancel = @"Cancel"; }
+    NSString* destructive  = [options objectForKey:@"destructive"];
 
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Sharing option:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:
-        @"Facebook",
-        @"Twitter",
-        nil];
+    NSArray* buttons = [options objectForKey:@"buttons"];
+    if([buttons count] == 0){
+      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"buttons was null or empty"];
+
+      // send "failed" back to cordova
+      [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+      return;
+    }
+
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+        initWithTitle:title
+        delegate:self
+        cancelButtonTitle:nil
+        destructiveButtonTitle:destructive
+        otherButtonTitles:nil
+    ];
+
+    // http://stackoverflow.com/questions/2384044/create-uiactionsheet-otherbuttons-by-passing-in-array-not-varlist
+    // =========================================================================
+    // ObjC Fast Enumeration
+    for (NSString *title in buttons) {
+        [actionSheet addButtonWithTitle:title];
+    }
+
+    [actionSheet addButtonWithTitle:cancel];
+    actionSheet.cancelButtonIndex = [buttons count];
+    // =========================================================================
+
     [actionSheet showInView:self.webView];
 
-    //UIMenuItem *someAction = [[UIMenuItem alloc]initWithTitle:@"Something" action:@selector(doSomething:)];
-
-    //UIMenuController *menu = [UIMenuController sharedMenuController];
-    //menu.menuItems = [NSArray arrayWithObject:someAction];
-    //[menu update];
+    // send "all good" back to cordova
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    return;
 }
 
 - (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
 
-  switch (popup.tag) {
-    case 1: {
-        NSString *jsString =
-            @"cordova.fireDocumentEvent('onContextMenuSelect',"
-            @"{ 'msg': '%@' });";
-        NSString *msg = @"Hello from objective C";
+    //NSLog(@"Called NativeContextMenuPlugin.actionSheet with buttonIndex of (%i)", buttonIndex);
 
-        [self writeJavascript:[NSString stringWithFormat:jsString, msg]];
+    NSString *jsString = @"cordova.fireDocumentEvent('onNativeContextMenuClose', { 'buttonIndex': %i });";
 
-        break;
-    }
-    default:
-        break;
- }
+    [self writeJavascript:[NSString stringWithFormat:jsString, buttonIndex]];
 }
 @end
