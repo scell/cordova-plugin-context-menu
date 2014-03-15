@@ -20,14 +20,14 @@
 
     <dependency id="org.apache.cordova.device" url="https://github.com/apache/cordova-plugin-device" />
 
-    <js-module src="www/native-context-menu.js" name="ContextMenu">
-        <clobbers target="window.plugin.contextmenu" />
+    <js-module src="www/native-context-menu.js" name="NativeContextMenuPlugin">
+        <clobbers target="plugin.contextmenu" />
     </js-module>
 
     <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
-            <feature name="ContextMenu">
+            <feature name="NativeContextMenuPlugin">
                 <param name="ios-package" value="NativeContextMenuPlugin" onload="true" />
                 <param name="onload" value="true" />
             </feature>
