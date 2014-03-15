@@ -21,7 +21,7 @@
     <dependency id="org.apache.cordova.device" url="https://github.com/apache/cordova-plugin-device" />
 
     <js-module src="www/native-context-menu.js" name="ContextMenu">
-        <clobbers target="plugin.contextmenu" />
+        <clobbers target="window.plugin.contextmenu" />
     </js-module>
 
     <!-- ios -->
