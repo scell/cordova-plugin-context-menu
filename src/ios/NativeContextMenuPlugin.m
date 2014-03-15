@@ -32,7 +32,7 @@
       return;
     }
     NSString* destructive  = [options objectForKey:@"destructive"];
-    if ([cancel length] != 0){ buttonsCount++; }
+    if ([destructive length] != 0){ buttonsCount++; }
 
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
         initWithTitle:title
