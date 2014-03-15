@@ -65,8 +65,18 @@
 
     //NSLog(@"Called NativeContextMenuPlugin.actionSheet with buttonIndex of (%i)", buttonIndex);
 
-    NSString *jsString = @"cordova.fireDocumentEvent('onNativeContextMenuClose', { 'buttonIndex': %i });";
+    NSString *jsString =
+        @"cordova.fireDocumentEvent('onNativeContextMenuClose', { "
+            @"'buttonIndex': %i, "
+            @"'destructiveButtonIndex': %i, "
+            @"'cancelButtonIndex': %i"
+        @" });";
 
-    [self writeJavascript:[NSString stringWithFormat:jsString, buttonIndex]];
+    [self writeJavascript:[NSString
+        stringWithFormat:jsString,
+        buttonIndex,
+        popup.destructiveButtonIndex,
+        popup.cancelButtonIndex
+    ]];
 }
 @end
