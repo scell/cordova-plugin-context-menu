@@ -13,7 +13,6 @@
 
     <author>Chris Reid</author>
 
-    <dependency id="cordova-plugin-device" url="https://github.com/apache/cordova-plugin-device.git" />
 
     <engines>
         <engine name="cordova" version=">=3.0.0" />
