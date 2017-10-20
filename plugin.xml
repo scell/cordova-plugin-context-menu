@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="com.chrinor.cordova.plugin.context-menu"
-        version="1.0.0">
+        version="0.1.0">
 
     <name>ContextMenu</name>
 
@@ -14,6 +14,10 @@
     <author>Chris Reid</author>
 
     <dependency id="cordova-plugin-device" url="https://github.com/apache/cordova-plugin-device.git" />
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
 
     <js-module src="www/native-context-menu.js" name="NativeContextMenuPlugin">
         <clobbers target="plugin.contextmenu" />
