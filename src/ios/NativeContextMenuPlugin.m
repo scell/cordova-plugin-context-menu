@@ -6,12 +6,16 @@
 
 @end
 
-@implementation NativeContextMenuPlugin
+@implementation NativeContextMenuPlugin {
+    NSString* callbackId;
+}
 
 - (void) doMenu:(CDVInvokedUrlCommand*)command
 {
     //NSLog(@"Called NativeContextMenuPlugin.doMenu");
 
+    callbackId = command.callbackId;
+    
     CDVPluginResult* pluginResult = nil;
 
     NSArray* arguments                = [command arguments];
@@ -54,29 +58,18 @@
     // =========================================================================
 
     [actionSheet showInView:self.webView];
-
-    // send "all good" back to cordova
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     return;
 }
 
 - (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
-
-    //NSLog(@"Called NativeContextMenuPlugin.actionSheet with buttonIndex of (%i)", buttonIndex);
-
-    NSString *jsString =
-        @"cordova.fireDocumentEvent('onNativeContextMenuClose', { "
-            @"'buttonIndex': %i, "
-            @"'destructiveButtonIndex': %i, "
-            @"'cancelButtonIndex': %i"
-        @" });";
-
-    [self writeJavascript:[NSString
-        stringWithFormat:jsString,
-        buttonIndex,
-        popup.destructiveButtonIndex,
-        popup.cancelButtonIndex
-    ]];
+    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                                  messageAsDictionary:@{
+                                                                        @"buttonIndex": [NSString stringWithFormat:@"%ld", buttonIndex],
+                                                                        @"destructiveButtonIndex":[NSString stringWithFormat:@"%ld", popup.destructiveButtonIndex],
+                                                                        @"cancelButtonIndex":[NSString stringWithFormat:@"%ld", popup.cancelButtonIndex]
+                                                                        }];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 @end
+
