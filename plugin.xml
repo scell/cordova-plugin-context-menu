@@ -8,7 +8,7 @@
     <name>ContextMenu</name>
 
     <description>Adds the ability to create and trigger context menus.</description>
-    <repo>https://github.com/chrinor2002/cordova-plugin-context-menu.git</repo>
+    <repo>https://github.com/scell/cordova-plugin-context-menu.git</repo>
     <keywords>menu, context menu, ios</keywords>
     <license>TBD</license>
 
