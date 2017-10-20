@@ -1,0 +1,9 @@
+{
+    "version": "0.1.0",
+    "name": "com.chrinor.cordova.plugin.context-menu",
+    "cordova_name": "ContextMenu",
+    "description": "Adds the ability to create and trigger context menus.",
+    "platforms": [
+        "ios"
+    ]
+}
