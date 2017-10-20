@@ -18,7 +18,7 @@
         <engine name="cordova" version=">=3.0.0" />
     </engines>
 
-    <dependency id="org.apache.cordova.device" url="https://github.com/apache/cordova-plugin-device" />
+    <dependency id="cordova-plugin-device" url="https://github.com/apache/cordova-plugin-device.git" />
 
     <js-module src="www/native-context-menu.js" name="NativeContextMenuPlugin">
         <clobbers target="plugin.contextmenu" />
